@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Sitemap: https://intreccidicarta.com/sitemap.xml
+Sitemap: https://intreccidicarta.com/libri/sitemap.xml
+Sitemap: https://intreccidicarta.com/carte/sitemap.xml

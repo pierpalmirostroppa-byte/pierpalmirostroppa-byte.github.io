@@ -1,0 +1,4 @@
+Contact: mailto:info@intreccidicarta.com
+Expires: 2027-10-28T21:09:47.000Z
+Preferred-Languages: it, en
+Canonical: https://intreccidicarta.com/.well-known/security.txt
