@@ -1,0 +1,133 @@
+/* Intrecci di Carta · ingresso: il ventaglio con libri, librigiochi, libri per bambini, giochi di carte, videogiochi.
+   Un tavolo di feltro verde (come il sito delle carte) e cinque carte aperte a ventaglio.
+   Carattere: EB Garamond (licenza OFL), lo stesso dei libri; lo copia strumenti\prepara-ingresso.py in font\. */
+
+@font-face { font-family: 'EB Garamond'; src: url(font/EBGaramond-latin.woff2) format('woff2'); font-weight: 400 800; font-style: normal; font-display: swap; }
+@font-face { font-family: 'EB Garamond'; src: url(font/EBGaramond-Italic-latin.woff2) format('woff2'); font-weight: 400 800; font-style: italic; font-display: swap; }
+
+:root {
+  --feltro: #13291f;
+  --feltro-scuro: #0a160f;
+  --carta: #f6f1e6;
+  --carta-2: #ece4d2;
+  --inchiostro: #1c1813;
+  --inchiostro-2: #4a4238;
+  --chiaro: #ece6d6;
+  --chiaro-2: rgba(236, 230, 214, .72);
+  --oro: #e2c27d;
+  --filo: rgba(236, 230, 214, .16);
+  --acc: var(--oro);
+  --gutter: clamp(16px, 4vw, 44px);
+  --cjk: 'Songti SC', 'STSong', 'SimSun', 'Noto Serif SC', 'Source Han Serif SC';
+  --serif: 'EB Garamond', Garamond, 'Palatino Linotype', Palatino, Georgia, var(--cjk), serif;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; min-height: 100vh; display: flex; flex-direction: column;
+  color: var(--chiaro); font: 400 1.2rem/1.55 var(--serif);
+  background:
+    radial-gradient(90% 70% at 50% 38%, #1d3d2e 0%, var(--feltro) 55%, var(--feltro-scuro) 100%);
+  overflow-x: hidden;
+}
+/* trama del feltro */
+body::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .1; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+body > * { position: relative; z-index: 1; }
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--oro); outline-offset: 4px; }
+
+.salta { position: absolute; left: -999px; top: 8px; background: var(--carta); color: var(--inchiostro); padding: 8px 14px; z-index: 200; }
+.salta:focus { left: 8px; }
+
+/* ---------- testata: marchio e lingue ---------- */
+.i-testa { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px var(--gutter); }
+.i-marchio { display: inline-flex; align-items: center; gap: 12px; }
+.i-marchio .logo { width: auto; height: 40px; }
+.i-marchio span { font: 600 .95rem/1 var(--serif); letter-spacing: .24em; text-transform: uppercase; color: var(--chiaro); }
+.lingue { position: relative; }
+.lingue summary {
+  list-style: none; cursor: pointer; font: 700 .9rem/1 var(--serif); letter-spacing: .12em; color: var(--chiaro);
+  border: 1px solid var(--filo); padding: 9px 12px; display: flex; gap: 8px; align-items: center; border-radius: 3px;
+}
+.lingue summary::-webkit-details-marker { display: none; }
+.lingue summary::after { content: ''; width: 6px; height: 6px; border: solid currentColor; border-width: 0 1.5px 1.5px 0; transform: translateY(-2px) rotate(45deg); }
+.lingue ul { position: absolute; right: 0; top: calc(100% + 8px); margin: 0; padding: 6px; list-style: none; min-width: 170px; background: var(--carta); border-radius: 4px; box-shadow: 0 20px 40px -14px rgba(0, 0, 0, .6); z-index: 20; }
+.lingue a { display: block; padding: 8px 12px; text-decoration: none; color: var(--inchiostro-2); }
+.lingue a:hover { background: var(--carta-2); color: var(--inchiostro); }
+.lingue a[aria-current] { background: var(--inchiostro); color: var(--carta); }
+
+/* ---------- invito ---------- */
+main { flex: 1; }
+.i-intro { text-align: center; padding: clamp(18px, 5vw, 56px) var(--gutter) 0; max-width: 880px; margin: 0 auto; }
+.i-occhiello { margin: 0 0 14px; font: 600 .86rem/1.3 var(--serif); letter-spacing: .26em; text-transform: uppercase; color: var(--oro); }
+.i-intro h1 { margin: 0; font: 500 clamp(3rem, 8.4vw, 6.4rem)/1 var(--serif); letter-spacing: -.01em; color: #fbf6ea; }
+.i-sotto { margin: 20px auto 0; max-width: 34em; color: var(--chiaro-2); font-size: clamp(1.08rem, 1.7vw, 1.25rem); }
+
+/* ---------- il ventaglio ---------- */
+.ventaglio {
+  --k: 1; /* quanto si apre il ventaglio: 1 sugli schermi grandi, meno su quelli medi */
+  display: flex; justify-content: center; align-items: stretch;
+  padding: clamp(44px, 7vw, 84px) var(--gutter) clamp(90px, 10vw, 130px);
+}
+.cv {
+  --w: clamp(176px, 16.4vw, 232px);
+  flex: none; width: var(--w); margin-inline: calc(var(--w) * -.09);
+  display: flex; flex-direction: column; text-decoration: none; color: var(--inchiostro);
+  background: var(--carta); border-radius: 14px; overflow: hidden;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .6) inset, 0 26px 40px -18px rgba(0, 0, 0, .7), 0 6px 12px -6px rgba(0, 0, 0, .45);
+  transform: translateY(calc(var(--y) * var(--k))) rotate(calc(var(--r) * var(--k))); transform-origin: 50% 120%;
+  transition: transform .45s cubic-bezier(.2, .8, .2, 1), box-shadow .45s;
+  animation: apri 1s cubic-bezier(.2, .8, .2, 1) backwards; animation-delay: calc(var(--i) * 80ms + 150ms);
+  position: relative; z-index: 1;
+}
+/* bordino interno, come una carta da gioco */
+.cv::after { content: ''; position: absolute; inset: 6px; border: 1px solid color-mix(in srgb, var(--acc) 45%, transparent); border-radius: 10px; pointer-events: none; }
+.cv:hover, .cv:focus-visible { transform: translateY(calc(var(--y) * var(--k) - 30px)) rotate(calc(var(--r) * var(--k) * .35)) scale(1.05); z-index: 10; box-shadow: 0 40px 60px -22px rgba(0, 0, 0, .8), 0 8px 18px -6px rgba(0, 0, 0, .5); }
+@keyframes apri { from { transform: translateY(70px) rotate(0) scale(.94); opacity: 0; } }
+
+.cv-img { display: block; aspect-ratio: 4 / 3; background: radial-gradient(120% 90% at 50% 20%, color-mix(in srgb, var(--acc) 70%, #fff 8%), color-mix(in srgb, var(--acc) 55%, #000 45%)); }
+.cv-img img { width: 100%; height: 100%; object-fit: cover; }
+.cv-corpo { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px 18px; flex: 1; }
+.cv-sopra { font: italic 500 .95rem/1.25 var(--serif); color: color-mix(in srgb, var(--acc) 55%, var(--inchiostro)); }
+.cv-nome { margin: 0; font: 600 clamp(1.35rem, 1.9vw, 1.7rem)/1.08 var(--serif); }
+.cv-testo { margin-top: 4px; font-size: .98rem; line-height: 1.4; color: var(--inchiostro-2); }
+.cv-vai { margin-top: auto; padding-top: 12px; font: 700 .76rem/1 var(--serif); letter-spacing: .18em; text-transform: uppercase; color: var(--inchiostro); }
+
+/* ---------- piede ---------- */
+.i-piede { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 26px; padding: 22px var(--gutter) 30px; border-top: 1px solid var(--filo); font-size: 1rem; color: var(--chiaro-2); }
+.i-piede a { text-decoration: none; }
+.i-piede a:hover { color: var(--chiaro); text-decoration: underline; }
+
+:lang(zh-Hans) .i-occhiello, :lang(zh-Hans) .i-marchio span { letter-spacing: .1em; }
+:lang(zh-Hans) .i-intro h1 { line-height: 1.2; }
+
+/* ---------- schermi medi: carte un po' più strette ---------- */
+@media (max-width: 1060px) {
+  .ventaglio { --k: .5; }
+  .cv { --w: clamp(150px, 19vw, 200px); margin-inline: calc(var(--w) * -.04); }
+  .cv-testo { font-size: .9rem; }
+}
+/* ---------- telefoni: le carte una sotto l'altra, appena storte ---------- */
+@media (max-width: 760px) {
+  .ventaglio { flex-direction: column; align-items: center; gap: 16px; padding-top: 34px; padding-bottom: 60px; --k: 1; }
+  .cv {
+    --w: min(100%, 520px); margin-inline: 0; flex-direction: row; min-height: 132px;
+    transform: rotate(calc(var(--r) * .12)); transform-origin: 50% 50%;
+  }
+  .cv:hover, .cv:focus-visible { transform: scale(1.02); }
+  .cv-img { width: 40%; aspect-ratio: auto; flex: none; }
+  .cv-corpo { padding: 12px 16px 14px; }
+  .cv-nome { font-size: 1.4rem; }
+  .i-marchio span { font-size: .8rem; letter-spacing: .18em; }
+  .i-marchio .logo { height: 34px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cv { animation: none; transition-duration: 0s; }
+}
