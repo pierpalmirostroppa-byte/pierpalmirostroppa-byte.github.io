@@ -46,7 +46,8 @@ a { color: inherit; }
 .salta:focus { left: 8px; }
 
 /* ---------- testata: marchio e lingue ---------- */
-.i-testa { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px var(--gutter); }
+/* z-index sopra il resto: il menu delle lingue si apre sopra l'invito e il ventaglio, che vengono dopo nella pagina */
+.i-testa { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px var(--gutter); z-index: 30; }
 .i-marchio { display: inline-flex; align-items: center; gap: 12px; }
 .i-marchio .logo { width: auto; height: 40px; }
 .i-marchio span { font: 600 .95rem/1 var(--serif); letter-spacing: .24em; text-transform: uppercase; color: var(--chiaro); }
